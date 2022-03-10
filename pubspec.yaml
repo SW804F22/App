@@ -16,6 +16,7 @@ dependencies:
     path: packages/authentication_repository
   user_repository:
     path: packages/user_repository
+  google_maps_flutter: ^2.1.2
 
 dev_dependencies:
   flutter_test:
