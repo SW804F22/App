@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
@@ -18,8 +19,10 @@ class AuthenticationRepository {
     required String password,
   }) async {
 
+    var status = await Permission.location.request();
+
     final response = await http.post(
-      Uri.parse('https://poirecapi.azurewebsites.net/Authentication/Login'),
+      Uri.parse('http://poirecserver.swedencentral.cloudapp.azure.com/Authentication/Login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -29,9 +32,9 @@ class AuthenticationRepository {
       }),
     );
 
-    print(response.statusCode);
+    print(response.body);
 
-    if(response.statusCode == 404){
+    if(response.statusCode == 200){
       _controller.add(AuthenticationStatus.authenticated);
     }
 
