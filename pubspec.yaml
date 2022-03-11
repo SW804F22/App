@@ -6,6 +6,9 @@ publish_to: none
 environment:
   sdk: ">=2.16.0 <3.0.0"
 
+assets:
+  - .env
+
 dependencies:
   flutter:
     sdk: flutter
@@ -17,6 +20,8 @@ dependencies:
   user_repository:
     path: packages/user_repository
   google_maps_flutter: ^2.1.2
+  geolocator: ^5.2.1
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:

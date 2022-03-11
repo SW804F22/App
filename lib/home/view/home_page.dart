@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../../authentication/bloc/authentication_bloc.dart';
 
@@ -15,7 +16,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late GoogleMapController mapController;
-
   final LatLng _center = const LatLng(45.52, -122.67);
 
   void _onMapCreated(GoogleMapController controller){
