@@ -7,7 +7,7 @@ environment:
   sdk: ">=2.16.0 <3.0.0"
 
 assets:
-  - .env
+  - env.env
 
 dependencies:
   flutter:
@@ -20,14 +20,13 @@ dependencies:
   user_repository:
     path: packages/user_repository
   google_maps_flutter: ^2.1.2
-  geolocator: ^5.2.1
-  flutter_dotenv: ^5.0.2
+  flutter_config: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   bloc_test: ^9.0.2
-  mocktail: ^0.2.0
+  mocktail: ^0.3.0
 
 flutter:
   uses-material-design: true
