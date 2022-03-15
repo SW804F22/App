@@ -19,7 +19,7 @@ class AuthenticationRepository {
     required String password,
   }) async {
 
-    var status = await Permission.location.request();
+    //var status = await Permission.location.request();
 
     final response = await http.post(
       Uri.parse('http://poirecserver.swedencentral.cloudapp.azure.com/Authentication/Login'),
@@ -31,7 +31,7 @@ class AuthenticationRepository {
         'password': password,
       }),
     );
-
+    print(response);
     print(response.body);
 
     if(response.statusCode == 200){
