@@ -20,6 +20,10 @@ class _SettingsPageState extends State<SettingsPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          title:Center(child: const Text('Settings')),
+          backgroundColor: Colors.deepPurple,
+        ),
         body: (
            Center(
              child: ElevatedButton(

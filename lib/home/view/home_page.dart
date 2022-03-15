@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_login/map/view/map_page.dart';
 import 'package:flutter_login/settings/view/settings_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,12 +30,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Google Maps'),
-          backgroundColor: Colors.deepPurple,
-        ),
-        body: Center(
-          child: _pages.elementAt(_selectedIndex),
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: _pages,
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,

@@ -14,7 +14,7 @@ class MapPage extends StatefulWidget {
   _MapPageState createState() => _MapPageState();
 }
 
-class _MapPageState extends State<MapPage> {
+class _MapPageState extends State<MapPage>{
 
   late GoogleMapController mapController;
   Location _location = Location();
@@ -31,16 +31,6 @@ class _MapPageState extends State<MapPage> {
                 zoom: 13.0
             )
         ));
-
-      _location.onLocationChanged.listen((l) {
-        controller.animateCamera(
-            CameraUpdate.newCameraPosition(
-                CameraPosition(
-                    target: LatLng(l.latitude!, l.longitude!),
-                    zoom: 13.0
-                )
-            ));
-      });
   }
 
   Future<PH.PermissionStatus> LocationPermission() async {
@@ -52,6 +42,10 @@ class _MapPageState extends State<MapPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          title:Center(child: const Text('Google Maps')),
+          backgroundColor: Colors.deepPurple,
+        ),
         body: GoogleMap(
           initialCameraPosition: CameraPosition(target: _center, zoom: 11.0),
           onMapCreated: _onMapCreated,
@@ -61,4 +55,5 @@ class _MapPageState extends State<MapPage> {
       ),
     );
   }
+
 }
