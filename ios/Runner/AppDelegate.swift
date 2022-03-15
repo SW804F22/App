@@ -1,10 +1,10 @@
 import UIKit
 import Flutter
 import flutter_config
-FlutterConfigPlugin.env(for: "MAPS_API_KEY")
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
+  FlutterConfigPlugin.env(for: "MAPS_API_KEY");
   NSString* mapsApiKey = [[NSProcessInfo processInfo] environment[@"MAPS_API_KEY"];
   override func application(
     _ application: UIApplication,
