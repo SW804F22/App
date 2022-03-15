@@ -20,8 +20,17 @@ class _MapPageState extends State<MapPage> {
   Location _location = Location();
   final LatLng _center = const LatLng(30.52, -100.67);
 
-  void _onMapCreated(GoogleMapController controller){
+  void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
+
+    var loc =  await _location.getLocation();
+    controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+            CameraPosition(
+                target: LatLng(loc.latitude!, loc.longitude!),
+                zoom: 13.0
+            )
+        ));
 
       _location.onLocationChanged.listen((l) {
         controller.animateCamera(
