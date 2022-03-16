@@ -7,3 +7,4 @@ environment:
 dependencies:
     http: ^0.13.2
     permission_handler: ^9.2.0
+    syncfusion_flutter_datepicker: ^19.4.56

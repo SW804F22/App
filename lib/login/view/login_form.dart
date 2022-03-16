@@ -14,7 +14,7 @@ class LoginForm extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
+              const SnackBar(content: Text('Login failed')),
             );
         }
       },
@@ -28,6 +28,8 @@ class LoginForm extends StatelessWidget {
             _PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
             _LoginButton(),
+            const Padding(padding: EdgeInsets.all(12)),
+            _RegisterButton(),
           ],
         ),
       ),
@@ -100,3 +102,23 @@ class _LoginButton extends StatelessWidget {
     );
   }
 }
+
+class _RegisterButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (previous, current) => previous.status != current.status,
+      builder: (context, state) {
+        return state.status.isSubmissionInProgress
+            ? const CircularProgressIndicator()
+            : ElevatedButton(
+          key: const Key('registerForm_continue_raisedButton'),
+          child: const Text('Register Account'),
+          onPressed: () =>context.read<LoginBloc>().add(const GoRegister()),
+          style: ElevatedButton.styleFrom(primary: Colors.deepPurple),
+        );
+      },
+    );
+  }
+}
+

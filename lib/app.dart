@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_login/login/view/register_page.dart';
 import 'package:flutter_login/splash/view/splash_page.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -61,6 +62,13 @@ class _AppViewState extends State<AppView> {
                 _navigator.pushAndRemoveUntil<void>(
                   LoginPage.route(),
                       (route) => false,
+                );
+                break;
+              case AuthenticationStatus.registering:
+                print("Am here?");
+                _navigator.pushAndRemoveUntil<void>(
+                  RegisterPage.route(),
+                    (route) => false,
                 );
                 break;
               default:
