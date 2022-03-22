@@ -17,11 +17,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 required AuthenticationRepository authenticationRepository,
 })  : _authenticationRepository = authenticationRepository,
 super(const RegisterState()) {
-on<RegisterUsernameChanged>(_onUsernameChanged);
-on<RegisterPasswordChanged>(_onPasswordChanged);
-on<RegisterSubmitted>(_onSubmitted);
-on<RegisterGenderChanged>(_onGenderChanged);
-on<RegisterAgeChanged>(_onAgeChanged);
+  on<RegisterUsernameChanged>(_onUsernameChanged);
+  on<RegisterPasswordChanged>(_onPasswordChanged);
+  on<RegisterSubmitted>(_onSubmitted);
+  on<RegisterGenderChanged>(_onGenderChanged);
+  on<RegisterAgeChanged>(_onAgeChanged);
 }
 
 final AuthenticationRepository _authenticationRepository;

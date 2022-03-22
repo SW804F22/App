@@ -45,9 +45,6 @@ class AuthenticationRepository {
     required int gender,
     required String age,
   }) async {
-
-    print(gender);
-
     final response = await http.post(
       Uri.parse('http://poirecserver.swedencentral.cloudapp.azure.com/Authentication/Register'),
       headers: <String, String>{

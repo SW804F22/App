@@ -49,6 +49,7 @@ class _MapPageState extends State<MapPage>{
         body: GoogleMap(
           initialCameraPosition: CameraPosition(target: _center, zoom: 11.0),
           onMapCreated: _onMapCreated,
+          mapType: MapType.normal,
           myLocationButtonEnabled: true,
           myLocationEnabled: true,
         ),
