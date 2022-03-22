@@ -11,7 +11,7 @@ abstract class MapEvent extends Equatable {
 class MapMarkersChanged extends MapEvent {
   const MapMarkersChanged(this.markers);
 
-  final List<marker> markers;
+  final List<Marker> markers;
 
   @override
   List<Object> get props => [markers];

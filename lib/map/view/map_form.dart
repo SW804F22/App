@@ -32,23 +32,24 @@ class MapForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<MapBloc, MapState>(
-      listener: (context, state) {
-
-      },
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: GoogleMap(
-            initialCameraPosition: CameraPosition(
-                target: _center, zoom: 11.0),
-            onMapCreated: _onMapCreated,
-            mapType: MapType.normal,
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
+    return BlocBuilder<MapBloc, MapState>(
+      buildWhen: (previous, current) => previous.markers != current.markers,
+      builder: (context, state) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: Scaffold(
+            body: GoogleMap(
+              initialCameraPosition: CameraPosition(
+                  target: _center, zoom: 11.0),
+              onMapCreated: _onMapCreated,
+              mapType: MapType.normal,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              markers: state.markers,
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

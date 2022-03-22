@@ -2,14 +2,14 @@ part of 'map_bloc.dart';
 
 class MapState extends Equatable {
   const MapState({
-    this.markers = List<marker>,
+    this.markers = const <Marker>{},
 
   });
 
-  final markers;
+  final Set<Marker> markers;
 
   MapState copyWith({
-    marker? markers,
+    Set<Marker>? markers,
   }) {
     return MapState(
     markers: markers ?? this.markers,

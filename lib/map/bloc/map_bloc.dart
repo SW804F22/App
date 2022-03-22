@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 import '../models/marker.dart';
 
@@ -19,13 +20,19 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       MapMarkersChanged event,
       Emitter<MapState> emit,)
   {
-    print("OnMarkersChanged");
+
   }
 
   void _onMarkersInit(
       MapMarkersInit event,
-      Emitter<MapState> emit,)
+      Emitter<MapState> emit,) async
   {
-    print("I am here, and I am queer");
+
+    final Set<Marker> newMarkers = {new Marker(markerId: new MarkerId('value'), position: LatLng(57.04, 9.93))};
+    print("We have not yet emitted");
+    emit(state.copyWith(
+      markers: newMarkers,
+    ));
+    print("We have emitted");
   }
 }
