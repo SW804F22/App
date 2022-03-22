@@ -1,6 +1,21 @@
 part of 'map_bloc.dart';
 
-@immutable
-abstract class MapState {}
+class MapState extends Equatable {
+  const MapState({
+    this.markers = List<marker>,
 
-class MapInitial extends MapState {}
+  });
+
+  final markers;
+
+  MapState copyWith({
+    marker? markers,
+  }) {
+    return MapState(
+    markers: markers ?? this.markers,
+    );
+  }
+
+  @override
+  List<Object> get props => [markers];
+}
