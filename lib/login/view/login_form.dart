@@ -109,9 +109,7 @@ class _RegisterButton extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
-            : ElevatedButton(
+        return ElevatedButton(
           key: const Key('registerForm_continue_raisedButton'),
           child: const Text('Register Account'),
           onPressed: () =>context.read<LoginBloc>().add(const GoRegister()),

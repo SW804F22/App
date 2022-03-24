@@ -10,14 +10,15 @@ import '../bloc/map_bloc.dart';
 
 class MapForm extends StatelessWidget {
 
-  final bloc = MapBloc();
+  //final bloc = MapBloc();
   late GoogleMapController mapController;
   Location _location = Location();
-  final LatLng _center = const LatLng(30.52, -100.67);
+  final LatLng _center = const LatLng(55.6, 12.5);
 
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
+
 
     var loc =  await _location.getLocation();
     controller.animateCamera(
@@ -27,7 +28,6 @@ class MapForm extends StatelessWidget {
                 zoom: 13.0
             )
         ));
-    bloc.add(MapMarkersInit());
   }
 
   @override
@@ -35,6 +35,7 @@ class MapForm extends StatelessWidget {
     return BlocBuilder<MapBloc, MapState>(
       buildWhen: (previous, current) => previous.markers != current.markers,
       builder: (context, state) {
+        LatLngBounds pos;
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           home: Scaffold(
@@ -46,6 +47,12 @@ class MapForm extends StatelessWidget {
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               markers: state.markers,
+              onCameraIdle: () async => {
+                pos = await mapController.getVisibleRegion(),
+                context.read<MapBloc>().add(MapStoppedEvent(new LatLng(
+                    (pos.northeast.latitude + pos.southwest.latitude)/2,
+                    (pos.northeast.longitude + pos.southwest.longitude)/2)))
+              },
             ),
           ),
         );

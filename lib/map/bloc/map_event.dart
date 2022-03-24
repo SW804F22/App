@@ -24,3 +24,12 @@ class MapMarkersInit extends MapEvent {
   @override
   List<Object> get props => [];
 }
+
+class MapStoppedEvent extends MapEvent {
+  const MapStoppedEvent(this.position);
+
+  final LatLng position;
+
+  @override
+  List<Object> get props => [position];
+}
