@@ -50,7 +50,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     final response = await http.get(
       Uri.parse('http://poirecserver.swedencentral.cloudapp.azure.com/Poi/search?' + "latitude="
-          + pos.latitude.toString() + "&" + "longitude=" + pos.longitude.toString() + "&" + "distance=" + "0.05"),
+          + pos.latitude.toString() + "&" + "longitude=" + pos.longitude.toString() + "&" + "distance=" + "0.01"+"&limit=1000"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       }
@@ -61,12 +61,14 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     List<marker> markers = [];
     Set<Marker> googleMarkers = {};
 
+    print("Response received");
     for(var poi in poiList){
       markers.add(new marker(poi['title'], poi['uuid'], poi['description'],
                              poi['longitude'], poi['latitude'], "Some category",
                              poi['website'], poi['address'], poi['priceStep']));
 
     }
+    print("Custom markers made");
 
     for(var marker in markers){
       googleMarkers.add(
@@ -76,6 +78,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             infoWindow: new InfoWindow(title: marker.name, snippet: marker.description),
       ));
     }
+    print("Google markers made");
     // Set<Marker> newMarkers = {new Marker(markerId: new MarkerId('value'), position: LatLng(57.04, 9.93))};
     emit(state.copyWith(
       markers : googleMarkers,
