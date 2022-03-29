@@ -5,6 +5,8 @@ import 'package:permission_handler/permission_handler.dart' as PH;
 import '../../authentication/bloc/authentication_bloc.dart';
 import 'package:location/location.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter_beautiful_popup/main.dart';
+
 
 import '../bloc/map_bloc.dart';
 

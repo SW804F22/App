@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../bloc/register_bloc.dart';
 

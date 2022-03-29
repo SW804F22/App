@@ -9,7 +9,6 @@ import 'package:meta/meta.dart';
 import '../models/marker.dart';
 import 'package:http/http.dart' as http;
 
-
 part 'map_event.dart';
 part 'map_state.dart';
 
@@ -75,7 +74,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           new Marker(
             markerId: new MarkerId(marker.UUID),
             position: new LatLng(marker.lat, marker.long),
-            infoWindow: new InfoWindow(title: marker.name, snippet: marker.description),
+            infoWindow: new InfoWindow(
+                title: marker.name,
+                snippet: marker.description,
+            ),
       ));
     }
     print("Google markers made");

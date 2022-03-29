@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   static List<Widget> _pages = <Widget>[
     Icon(
       Icons.pin_drop,
-      size: 150,
+      size: 250,
     ),
     MapPage(),
     SettingsPage(),
