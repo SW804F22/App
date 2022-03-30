@@ -1,7 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_login/login/login.dart';
 import 'package:formz/formz.dart';
 
 import '../models/password.dart';
@@ -18,6 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginUsernameChanged>(_onUsernameChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onSubmitted);
+    on<GoRegister>(_goRegister);
   }
 
   final AuthenticationRepository _authenticationRepository;
@@ -44,6 +44,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     ));
   }
 
+  void _goRegister(
+      GoRegister event,
+      Emitter<LoginState> emit) async {
+    _authenticationRepository.goRegister();
+  }
+
   void _onSubmitted(
       LoginSubmitted event,
       Emitter<LoginState> emit,
@@ -51,11 +57,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.status.isValidated) {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       try {
-        await _authenticationRepository.logIn(
+        var response = await _authenticationRepository.logIn(
           username: state.username.value,
           password: state.password.value,
         );
-        emit(state.copyWith(status: FormzStatus.submissionSuccess));
+        if(response.statusCode != 200) {
+          throw new Future.error("Login failed. Status code: " + response.statusCode.toString());
+        } else {
+          emit(state.copyWith(status: FormzStatus.submissionSuccess));
+        }
       } catch (_) {
         emit(state.copyWith(status: FormzStatus.submissionFailure));
       }
