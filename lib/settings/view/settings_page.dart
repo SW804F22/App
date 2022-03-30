@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -24,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
           title:Center(child: const Text('Settings')),
           backgroundColor: Colors.deepPurple,
         ),
-        body: (
+        body:
            Center(
              child: ElevatedButton(
                child: const Text('Logout'),
@@ -35,7 +33,7 @@ class _SettingsPageState extends State<SettingsPage> {
                },
              ),
            )
-        ),
+        ,
       ),
     );
   }

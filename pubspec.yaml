@@ -25,6 +25,11 @@ dependencies:
   syncfusion_flutter_datepicker: ^19.4.56
   get_it: ^7.2.0
   flutter_beautiful_popup: ^1.7.0
+  http: ^0.13.4
+  permission_handler: 9.2.0
+  bloc: ^8.0.3
+  meta: ^1.7.0
+  uuid: ^3.0.6
 
 
 dev_dependencies:

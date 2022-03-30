@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poirecapi/map/view/map_page.dart';
 import 'package:poirecapi/settings/view/settings_page.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../authentication/bloc/authentication_bloc.dart';
 
 class HomePage extends StatefulWidget {
   static Route route() {
@@ -17,7 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
 
-  static List<Widget> _pages = <Widget>[
+  static final List<Widget> _pages = <Widget>[
     Icon(
       Icons.pin_drop,
       size: 250,
@@ -37,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
             selectedItemColor: Colors.deepPurple,
-            items: <BottomNavigationBarItem>[
+            items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.pin_drop), label: 'Recommended'),
             BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'Map'),
             BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),

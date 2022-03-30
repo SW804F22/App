@@ -83,22 +83,22 @@ class _PasswordInput extends StatelessWidget {
 }
 
 List<DropdownMenuItem<String>> get dropdownItems{
-  List<DropdownMenuItem<String>> menuItems = [
-    DropdownMenuItem(child: Text("Unspecified"),value: "0"),
-    DropdownMenuItem(child: Text("Male"),value: "1"),
-    DropdownMenuItem(child: Text("Female"),value: "2"),
+  final List<DropdownMenuItem<String>> menuItems = [
+    DropdownMenuItem(value: "0", child: Text("Unspecified")),
+    DropdownMenuItem(value: "1", child: Text("Male")),
+    DropdownMenuItem(value: "2", child: Text("Female")),
   ];
   return menuItems;
 }
 
 class _GenderChoice extends StatelessWidget {
-  var selected = dropdownItems[0].value;
+  String? selected = dropdownItems[0].value;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, RegisterState>(
       buildWhen: (previous, current) => previous.gender != current.gender,
-      builder: (context, state) {return new Row(
+      builder: (context, state) {return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("Gender: ", textScaleFactor: 1.5,),
@@ -140,7 +140,7 @@ class _AgePicker extends StatelessWidget {
         return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Birthdate: " + selectedDate.toString().split(' ')[0]),
+          Text("Birthdate: ${selectedDate.toString().split(' ')[0]}"),
           ElevatedButton(onPressed: () => {
             _selectDate(context),
           },
@@ -162,13 +162,13 @@ class _RegisterButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : ElevatedButton(
           key: const Key('loginForm_continue_raisedButton'),
-          child: const Text('Register'),
           onPressed: state.status.isValidated
               ? () {
             context.read<RegisterBloc>().add(const RegisterSubmitted());
           }
               : null,
           style: ElevatedButton.styleFrom(primary: Colors.deepPurple),
+          child: const Text('Register'),
         );
       },
     );

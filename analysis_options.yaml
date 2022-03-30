@@ -28,6 +28,11 @@ linter:
     directives_ordering: false
     sort_pub_dependencies: false
     always_use_package_imports: false
+    require_trailing_commas: false
+    avoid_void_async: false
+    must_be_immutable: false
+    use_build_context_synchronously: false
+    avoid_dynamic_calls: false
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
