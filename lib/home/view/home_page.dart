@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_login/map/view/map_page.dart';
+import 'package:flutter_login/poi/view/poi_page.dart';
 import 'package:flutter_login/settings/view/settings_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
@@ -18,10 +19,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
 
   static List<Widget> _pages = <Widget>[
-    Icon(
-      Icons.pin_drop,
-      size: 250,
-    ),
+    PoiPage(),
     MapPage(),
     SettingsPage(),
   ];
