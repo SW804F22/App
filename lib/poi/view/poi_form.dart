@@ -27,9 +27,6 @@ class PoiForm extends StatelessWidget{
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
                     Expanded(
                       child: _allUsers.isNotEmpty ? ListView.builder(
                         itemCount: _allUsers.length,
@@ -47,6 +44,7 @@ class PoiForm extends StatelessWidget{
                             subtitle: Text(
                                 '${_allUsers[index]["age"].toString()} years old'
                             ),
+                            onTap: ()=> context.read<PoiBloc>().add(PoiInit()),
                           ),
                         )
                       ) : const Text('No results', style: TextStyle(fontSize: 24),)

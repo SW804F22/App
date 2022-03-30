@@ -1,10 +1,23 @@
 part of 'poi_bloc.dart';
 
-abstract class PoiState extends Equatable {
-  const PoiState();
-}
+class PoiState extends Equatable {
+  const PoiState({
+    this.allPois = const <Map<String, dynamic>>[]
+});
 
-class PoiInitial extends PoiState {
+  final List<Map<String, dynamic>> allPois;
+
+  // Copy final value to modify it
+  PoiState copyWith({
+    List<Map<String, dynamic>>? allPois,
+  }) {
+    return PoiState(
+      allPois: allPois ?? this.allPois,
+    );
+  }
+
   @override
   List<Object> get props => [];
 }
+
+

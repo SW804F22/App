@@ -1,4 +1,4 @@
-class marker {
+class poi {
   String name = "";
   String UUID = "";
   String description = "";
@@ -9,7 +9,7 @@ class marker {
   String address = "";
   int price = 0;
 
-  marker(String _name, String _UUID, String _description, double _long, double _lat, String _categories, String _website, String _address, int _price){
+  poi(String _name, String _UUID, String _description, double _long, double _lat, String _categories, String _website, String _address, int _price){
     name = _name;
     UUID = _UUID;
     description = _description;
@@ -22,4 +22,3 @@ class marker {
   }
 
 }
-

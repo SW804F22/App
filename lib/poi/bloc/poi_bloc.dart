@@ -7,9 +7,14 @@ part 'poi_event.dart';
 part 'poi_state.dart';
 
 class PoiBloc extends Bloc<PoiEvent, PoiState> {
-  PoiBloc() : super(PoiInitial()) {
-    on<PoiEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+  PoiBloc() : super(PoiState()) {
+    on<PoiInit>(_onPoiInit);
+  }
+
+  void _onPoiInit(
+      PoiInit event,
+      Emitter<PoiState> emit,) async
+  {
+    print('Eyo test!');
   }
 }
