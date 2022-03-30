@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_login/login/login.dart';
+import 'package:poirecapi/login/login.dart';
 import 'package:formz/formz.dart';
 
 import '../bloc/login_bloc.dart';

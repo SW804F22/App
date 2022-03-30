@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beautiful_popup/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_login/map/view/map_form.dart';
+import 'package:poirecapi/map/view/map_form.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 import '../models/marker.dart';
