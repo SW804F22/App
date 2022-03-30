@@ -75,5 +75,20 @@ class AuthenticationRepository {
     _controller.add(AuthenticationStatus.registering);
   }
 
+  Future<List> returnMarkers(double lat, double long) async{
+
+    final response = await http.get(
+        Uri.parse('http://poirecserver.swedencentral.cloudapp.azure.com/Poi/search?' + "latitude="
+            + lat.toString() + "&" + "longitude=" + long.toString() + "&" + "distance=" + "0.01"+"&limit=1000"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        }
+    );
+
+    List poiList = json.decode(response.body);
+
+    return poiList;
+  }
+
   void dispose() => _controller.close();
 }
