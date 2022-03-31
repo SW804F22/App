@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
 
-  static List<Widget> _pages = <Widget>[
+  static final List<Widget> _pages = <Widget>[
     PoiPage(),
     MapPage(),
     SettingsPage(),
@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: style.primary,
             unselectedItemColor: style.secondary,
             selectedItemColor: style.fourth,
-            items: <BottomNavigationBarItem>[
+            items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.pin_drop), label: 'Recommended'),
             BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'Map'),
             BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
