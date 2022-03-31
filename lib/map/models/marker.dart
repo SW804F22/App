@@ -1,7 +1,7 @@
 
-class marker {
+class MarkerModel {
   final String name;
-  final String UUID;
+  final String uuid;
   final String description;
   final double long;
   final double lat;
@@ -10,6 +10,5 @@ class marker {
   final String address;
   final int price;
 
-  const marker(this.name, this.UUID, this.description, this.long, this.lat, this.categories, this.website, this.address, this.price);
+  const MarkerModel(this.name, this.uuid, this.description, this.long, this.lat, this.categories, this.website, this.address, this.price);
 }
-

@@ -26,7 +26,7 @@ jobs:
     - name: upload to codecov
       uses: codecov/codecov-action@v2
       with:
-        token: 4cfaf34a-b13e-4116-936a-fc34ea9b2fa5
+        token: 504c09d8-7117-4017-bba0-4aa92d742fa5
         directory: coverage
         flags: unittests
         verbose: true

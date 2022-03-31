@@ -1,15 +1,10 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_beautiful_popup/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poirecapi/map/view/map_form.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 import '../models/marker.dart';
-import 'package:http/http.dart' as http;
 
 part 'map_event.dart';
 part 'map_state.dart';
@@ -34,7 +29,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       Emitter<MapState> emit,) async
   {
 
-    final Set<Marker> newMarkers = {new Marker(markerId: new MarkerId('value'), position: LatLng(57.04, 9.93))};
+    final Set<Marker> newMarkers = {Marker(markerId: MarkerId('value'), position: LatLng(57.04, 9.93))};
     emit(state.copyWith(
       markers: newMarkers,
     ));

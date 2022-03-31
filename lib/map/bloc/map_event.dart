@@ -29,7 +29,7 @@ class MapStoppedEvent extends MapEvent {
   const MapStoppedEvent(this.googleMarkers, this.customMarkers);
 
   final Set<Marker> googleMarkers;
-  final List<marker> customMarkers;
+  final List<MarkerModel> customMarkers;
 
   @override
   List<Object> get props => [googleMarkers, customMarkers];
@@ -38,7 +38,7 @@ class MapStoppedEvent extends MapEvent {
 class OnMarkerSelect extends MapEvent {
   const OnMarkerSelect(this.selectedGoogleMarker);
 
-  final marker selectedGoogleMarker;
+  final MarkerModel selectedGoogleMarker;
 
   @override
   List<Object> get props => [selectedGoogleMarker];

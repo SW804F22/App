@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:permission_handler/permission_handler.dart' as PH;
-import '../../authentication/bloc/authentication_bloc.dart';
 import 'package:location/location.dart';
-import 'package:get_it/get_it.dart';
-import 'package:flutter_beautiful_popup/main.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 
 
@@ -16,15 +12,17 @@ class MapForm extends StatelessWidget {
 
   //final bloc = MapBloc();
   late GoogleMapController mapController;
-  final AuthenticationRepository _authenticationRepository = new AuthenticationRepository();
-  Location _location = Location();
+  final AuthenticationRepository _authenticationRepository = AuthenticationRepository();
+  final Location _location = Location();
   final LatLng _center = const LatLng(55.6, 12.5);
+
+  MapForm({Key? key}) : super(key: key);
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
 
 
-    var loc = await _location.getLocation();
+    final loc = await _location.getLocation();
     controller.animateCamera(
         CameraUpdate.newCameraPosition(
             CameraPosition(
@@ -40,9 +38,9 @@ class MapForm extends StatelessWidget {
       buildWhen: (previous, current) => previous.markers != current.markers || previous.selectedMarker != current.selectedMarker,
       builder: (context, state) {
         LatLngBounds pos;
-        List PoIList;
-        List<marker> markers = [];
-        Set<Marker> googleMarkers = {};
+        List poIList;
+        final List<MarkerModel> markers = [];
+        final Set<Marker> googleMarkers = {};
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           home: Scaffold(
@@ -50,34 +48,32 @@ class MapForm extends StatelessWidget {
               initialCameraPosition: CameraPosition(
                   target: _center, zoom: 14.0),
               onMapCreated: _onMapCreated,
-              mapType: MapType.normal,
-              myLocationButtonEnabled: true,
               myLocationEnabled: true,
               markers: state.markers,
               onCameraIdle: () async =>
               {
                 pos = await mapController.getVisibleRegion(),
-                PoIList = await _authenticationRepository.returnMarkers(
+                poIList = await _authenticationRepository.returnMarkers(
                     (pos.northeast.latitude + pos.southwest.latitude) / 2,
                     (pos.northeast.longitude + pos.southwest.longitude) / 2),
 
-                for(var poi in PoIList){
-                  markers.add(new marker(
-                      poi['title'],
-                      poi['uuid'],
-                      poi['description'],
-                      poi['longitude'],
-                      poi['latitude'],
+                for(var poi in poIList){
+                  markers.add(MarkerModel(
+                      poi['title'] as String,
+                      poi['uuid'] as String,
+                      poi['description'] as String,
+                      poi['longitude'] as double,
+                      poi['latitude'] as double,
                       "Some category",
-                      poi['website'],
-                      poi['address'],
-                      poi['priceStep']))
+                      poi['website'] as String,
+                      poi['address'] as String,
+                      poi['priceStep'] as int))
                 },
 
                 for(var marker in markers){
                   googleMarkers.add(
-                      new Marker(
-                        markerId: MarkerId(marker.UUID),
+                      Marker(
+                        markerId: MarkerId(marker.uuid),
                         position: LatLng(marker.lat, marker.long),
                         onTap: () =>
                         {
