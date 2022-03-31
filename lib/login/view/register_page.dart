@@ -5,6 +5,8 @@ import 'package:poirecapi/login/view/register_form.dart';
 import '../bloc/register_bloc.dart';
 
 class RegisterPage extends StatelessWidget {
+  const RegisterPage({Key? key}) : super(key: key);
+
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => RegisterPage());
   }

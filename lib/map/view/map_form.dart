@@ -16,6 +16,8 @@ class MapForm extends StatelessWidget {
   final Location _location = Location();
   final LatLng _center = const LatLng(55.6, 12.5);
 
+  MapForm({Key? key}) : super(key: key);
+
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
 

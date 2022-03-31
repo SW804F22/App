@@ -5,6 +5,8 @@ import 'package:formz/formz.dart';
 import '../bloc/register_bloc.dart';
 
 class RegisterForm extends StatelessWidget {
+  const RegisterForm({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<RegisterBloc, RegisterState>(

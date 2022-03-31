@@ -5,6 +5,8 @@ import '../bloc/map_bloc.dart';
 import 'map_form.dart';
 
 class MapPage extends StatelessWidget {
+  const MapPage({Key? key}) : super(key: key);
+
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => MapPage());
   }

@@ -3,6 +3,8 @@ import 'package:poirecapi/map/view/map_page.dart';
 import 'package:poirecapi/settings/view/settings_page.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => HomePage());
   }
