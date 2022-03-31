@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../bloc/poi_bloc.dart';
 
 class PoiForm extends StatelessWidget{
-  final List<Map<String, dynamic>> _allUsers = [
-    {"id": 1, "name": "Andy", "age": 29},
-    {"id": 2, "name": "Aragon", "age": 40},
-    {"id": 3, "name": "Bob", "age": 5},
-    {"id": 4, "name": "Barbara", "age": 35},
-    {"id": 5, "name": "Candy", "age": 21},
-    {"id": 6, "name": "Colin", "age": 55},
-    {"id": 7, "name": "Audra", "age": 30},
-    {"id": 8, "name": "Banana", "age": 14},
-    {"id": 9, "name": "Caversky", "age": 100},
-    {"id": 10, "name": "Becky", "age": 32},
-  ];
 
   @override
   Widget build(BuildContext context){
     return BlocBuilder<PoiBloc, PoiState>(
         builder: (context, state){
+          context.read<PoiBloc>().add(PoiInit(LatLng(55.67, 12.56)));
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(
@@ -28,23 +18,34 @@ class PoiForm extends StatelessWidget{
                 child: Column(
                   children: [
                     Expanded(
-                      child: _allUsers.isNotEmpty ? ListView.builder(
-                        itemCount: _allUsers.length,
+                      child: state.allPois.isNotEmpty ? ListView.builder(
+                        itemCount: state.allPois.length,
                         itemBuilder: (context, index) => Card(
-                          key: ValueKey(_allUsers[index]['id']),
-                          color: Colors.amberAccent,
-                          elevation: 4,
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          child: ListTile(
+                          key: ValueKey(state.allPois[index]['uuid']),
+                          //color: Color(0xffececec),
+                          elevation: 2,
+                          margin: EdgeInsets.symmetric(vertical: 7),
+                          child: ExpansionTile (
                             leading: Text(
-                              _allUsers[index]['id'].toString(),
-                              style: const TextStyle(fontSize: 24),
+                              //Leading should be from recommendation tier
+                              state.allPois[index]['title'].toString(),
+                              style: const TextStyle(fontSize: 16),
                             ),
-                            title: Text(_allUsers[index]['name']),
-                            subtitle: Text(
-                                '${_allUsers[index]["age"].toString()} years old'
-                            ),
-                            onTap: ()=> context.read<PoiBloc>().add(PoiInit()),
+                            title: Text(state.allPois[index]['title']),
+                            subtitle: state.allPois[index]['description'].isNotEmpty ?
+                              Text('About: ${state.allPois[index]['description'].toString()}'
+                              ) : const Text("No description available", style: TextStyle(fontSize: 12),),
+                            collapsedBackgroundColor: Color(0xffececec),
+                            collapsedTextColor: Colors.black,
+                            textColor: Colors.black,
+                            backgroundColor: Color(0xffececbb),
+                            children: [
+                              ListTile(
+                                title: Text(state.allPois[index]['address']),
+                                subtitle: Text(state.allPois[index]['website']),
+                                tileColor: Colors.white,
+                              )
+                            ]
                           ),
                         )
                       ) : const Text('No results', style: TextStyle(fontSize: 24),)
