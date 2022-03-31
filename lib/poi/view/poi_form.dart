@@ -5,6 +5,8 @@ import '../bloc/poi_bloc.dart';
 import 'package:poirecapi/GlobalStyles.dart' as style;
 
 class PoiForm extends StatelessWidget{
+  const PoiForm({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context){

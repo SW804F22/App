@@ -5,6 +5,8 @@ import 'package:poirecapi/poi/view/poi_page.dart';
 import 'package:poirecapi/GlobalStyles.dart' as style;
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => HomePage());
   }

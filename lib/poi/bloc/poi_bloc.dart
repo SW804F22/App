@@ -1,9 +1,6 @@
-import 'dart:async';
 import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,12 +27,12 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
     List<Map<String, dynamic>> allPois = [];
     List resList = json.decode(response.body);
     //var map1 = Map.fromIterable(poiList, key: (e) => e.poi)
-    resList.forEach((poi) {
+    for (var poi in resList) {
       allPois.add(
         {'uuid': poi['uuid'], 'title': poi['title'], 'description': poi['description'],
          'website': poi['website'], 'address': poi['address'], 'price': poi['priceStep']}
       );
-    });
+    }
 
     emit(state.copyWith(
       allPois: allPois
