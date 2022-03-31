@@ -1,8 +1,8 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_login/login/view/register_page.dart';
-import 'package:flutter_login/splash/view/splash_page.dart';
+import 'package:poirecapi/login/view/register_page.dart';
+import 'package:poirecapi/splash/view/splash_page.dart';
 import 'package:user_repository/user_repository.dart';
 
 import 'authentication/bloc/authentication_bloc.dart';
@@ -35,6 +35,8 @@ class App extends StatelessWidget {
 }
 
 class AppView extends StatefulWidget {
+  const AppView({Key? key}) : super(key: key);
+
   @override
   _AppViewState createState() => _AppViewState();
 }

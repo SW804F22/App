@@ -1,0 +1,32 @@
+name: Lint and test
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '2.10.3'
+        channel: 'stable'
+    - name: Get dependencies
+      run: flutter pub get
+    - name: Run linter
+      run: flutter analyze
+    - name: Run tests
+      run: flutter test --coverage
+    - name: upload to codecov
+      uses: codecov/codecov-action@v2
+      with:
+        token: 504c09d8-7117-4017-bba0-4aa92d742fa5
+        directory: coverage
+        flags: unittests
+        verbose: true

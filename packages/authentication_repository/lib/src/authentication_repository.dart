@@ -19,7 +19,7 @@ class AuthenticationRepository {
     required String password,
   }) async {
 
-    var status = await Permission.location.request();
+    await Permission.location.request();
 
     final response = await http.post(
       Uri.parse('http://poirecserver.swedencentral.cloudapp.azure.com/Authentication/Login'),
@@ -73,6 +73,18 @@ class AuthenticationRepository {
 
   void goRegister() {
     _controller.add(AuthenticationStatus.registering);
+  }
+
+  Future<List> returnMarkers(double lat, double long) async{
+
+    final response = await http.get(
+        Uri.parse('http://poirecserver.swedencentral.cloudapp.azure.com/Poi/search?latitude=$lat&longitude=$long&distance=0.01&limit=1000'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        }
+    );
+
+    return json.decode(response.body) as List;
   }
 
   void dispose() => _controller.close();

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:poirecapi/map/view/map_page.dart';
+import 'package:poirecapi/settings/view/settings_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_login/map/view/map_page.dart';
 import 'package:flutter_login/poi/view/poi_page.dart';

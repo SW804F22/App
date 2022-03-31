@@ -4,6 +4,8 @@ import 'package:flutter_login/GlobalStyles.dart' as style;
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
+
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => SettingsPage());
   }
@@ -23,7 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
           title:Center(child: const Text('Settings')),
           backgroundColor: style.primary,
         ),
-        body: (
+        body:
            Center(
              child: ElevatedButton(
                style: ElevatedButton.styleFrom(primary: style.primary),
@@ -35,7 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
                },
              ),
            )
-        ),
+        ,
       ),
     );
   }

@@ -57,12 +57,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.status.isValidated) {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       try {
-        var response = await _authenticationRepository.logIn(
+        final response = await _authenticationRepository.logIn(
           username: state.username.value,
           password: state.password.value,
         );
         if(response.statusCode != 200) {
-          throw new Future.error("Login failed. Status code: " + response.statusCode.toString());
+          throw Future.error("Login failed. Status code: ${response.statusCode}");
         } else {
           emit(state.copyWith(status: FormzStatus.submissionSuccess));
         }

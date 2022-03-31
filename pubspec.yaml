@@ -1,4 +1,4 @@
-name: flutter_login
+name: poirecapi
 description: A new Flutter project.
 version: 1.0.0+1
 publish_to: none
@@ -25,6 +25,11 @@ dependencies:
   syncfusion_flutter_datepicker: ^19.4.56
   get_it: ^7.2.0
   flutter_beautiful_popup: ^1.7.0
+  http: ^0.13.4
+  permission_handler: 9.2.0
+  bloc: ^8.0.3
+  meta: ^1.7.0
+  uuid: ^3.0.6
 
 
 dev_dependencies:
@@ -32,6 +37,7 @@ dev_dependencies:
     sdk: flutter
   bloc_test: ^9.0.2
   mocktail: ^0.3.0
+  flutter_lints: ^1.0.4
 
 flutter:
   uses-material-design: true

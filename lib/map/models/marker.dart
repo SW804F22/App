@@ -1,25 +1,14 @@
-class marker {
-  String name = "";
-  String UUID = "";
-  String description = "";
-  double long = 0.0;
-  double lat = 0.0;
-  String categories = "";
-  String website = "";
-  String address = "";
-  int price = 0;
 
-  marker(String _name, String _UUID, String _description, double _long, double _lat, String _categories, String _website, String _address, int _price){
-    name = _name;
-    UUID = _UUID;
-    description = _description;
-    long = _long;
-    lat = _lat;
-    categories = _categories;
-    website = _website;
-    address = _address;
-    price = _price;
-  }
+class MarkerModel {
+  final String name;
+  final String uuid;
+  final String description;
+  final double long;
+  final double lat;
+  final String categories;
+  final String website;
+  final String address;
+  final int price;
 
+  const MarkerModel(this.name, this.uuid, this.description, this.long, this.lat, this.categories, this.website, this.address, this.price);
 }
-

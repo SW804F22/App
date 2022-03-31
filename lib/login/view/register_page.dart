@@ -5,10 +5,12 @@ import 'package:flutter_login/GlobalStyles.dart' as style;
 import 'package:flutter_login/login/view/register_form.dart';
 
 import '../bloc/login_bloc.dart';
+import 'package:poirecapi/login/view/register_form.dart';
 import '../bloc/register_bloc.dart';
-import 'login_form.dart';
 
 class RegisterPage extends StatelessWidget {
+  const RegisterPage({Key? key}) : super(key: key);
+
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => RegisterPage());
   }

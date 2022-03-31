@@ -1,13 +1,10 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 import '../models/marker.dart';
-import 'package:http/http.dart' as http;
 
 part 'map_event.dart';
 part 'map_state.dart';
@@ -17,6 +14,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<MapMarkersChanged>(_onMarkersChanged);
     on<MapMarkersInit>(_onMarkersInit);
     on<MapStoppedEvent>(_onCameraPosChange);
+    on<OnMarkerSelect>(_onMarkerSelect);
   }
 
   void _onMarkersChanged(
@@ -31,7 +29,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       Emitter<MapState> emit,) async
   {
 
-    final Set<Marker> newMarkers = {new Marker(markerId: new MarkerId('value'), position: LatLng(57.04, 9.93))};
+    final Set<Marker> newMarkers = {Marker(markerId: MarkerId('value'), position: LatLng(57.04, 9.93))};
     emit(state.copyWith(
       markers: newMarkers,
     ));
@@ -42,49 +40,20 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       Emitter<MapState> emit,
       ) async
   {
-
-    var pos = event.position;
-
-    print("Sending request!");
-
-    final response = await http.get(
-      Uri.parse('http://poirecserver.swedencentral.cloudapp.azure.com/Poi/search?' + "latitude="
-          + pos.latitude.toString() + "&" + "longitude=" + pos.longitude.toString() + "&" + "distance=" + "0.01"+"&limit=1000"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      }
-    );
-
-    List poiList = json.decode(response.body);
-
-    List<marker> markers = [];
-    Set<Marker> googleMarkers = {};
-
-    print("Response received");
-    for(var poi in poiList){
-      markers.add(new marker(poi['title'], poi['uuid'], poi['description'],
-                             poi['longitude'], poi['latitude'], "Some category",
-                             poi['website'], poi['address'], poi['priceStep']));
-
-    }
-    print("Custom markers made");
-
-    for(var marker in markers){
-      googleMarkers.add(
-          new Marker(
-            markerId: new MarkerId(marker.UUID),
-            position: new LatLng(marker.lat, marker.long),
-            infoWindow: new InfoWindow(
-                title: marker.name,
-                snippet: marker.description,
-            ),
-      ));
-    }
-    print("Google markers made");
-    // Set<Marker> newMarkers = {new Marker(markerId: new MarkerId('value'), position: LatLng(57.04, 9.93))};
     emit(state.copyWith(
-      markers : googleMarkers,
-      customMarkers: markers,
+      markers : event.googleMarkers,
+      customMarkers: event.customMarkers,
     ));
+  }
+
+  void _onMarkerSelect (
+    OnMarkerSelect event,
+    Emitter<MapState> emit,
+  ) async {
+    emit(state.copyWith(
+      selectedMarker : event.selectedGoogleMarker,
+    ));
+
+    print(state.selectedMarker.name);
   }
 }
