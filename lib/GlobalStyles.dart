@@ -1,3 +1,4 @@
+export 'GlobalStyles.dart';
 import 'dart:ui';
 
 class GlobalStyles{
@@ -12,3 +13,4 @@ class GlobalStyles{
   final int fontSmall = 12;
 
 }
+
