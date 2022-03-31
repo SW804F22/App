@@ -1,8 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_login/login/login.dart';
-
+import 'package:flutter_login/GlobalStyles.dart' as style;
 import '../bloc/login_bloc.dart';
 import 'login_form.dart';
 
@@ -16,7 +15,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title:Center(child: const Text('Login')),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: style.primary,
       ),
       body: SingleChildScrollView(
         child: Padding(

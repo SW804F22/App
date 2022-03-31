@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../bloc/poi_bloc.dart';
+import 'package:flutter_login/GlobalStyles.dart' as style;
 
 class PoiForm extends StatelessWidget{
 
@@ -11,6 +12,7 @@ class PoiForm extends StatelessWidget{
         builder: (context, state){
           context.read<PoiBloc>().add(PoiInit(LatLng(55.67, 12.56)));
           return MaterialApp(
+            color: style.fourth,
             debugShowCheckedModeBanner: false,
             home: Scaffold(
               body: Padding(
@@ -29,26 +31,25 @@ class PoiForm extends StatelessWidget{
                             leading: Text(
                               //Leading should be from recommendation tier
                               state.allPois[index]['title'].toString(),
-                              style: const TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: style.fontMedium),
                             ),
                             title: Text(state.allPois[index]['title']),
                             subtitle: state.allPois[index]['description'].isNotEmpty ?
                               Text('About: ${state.allPois[index]['description'].toString()}'
-                              ) : const Text("No description available", style: TextStyle(fontSize: 12),),
-                            collapsedBackgroundColor: Color(0xffececec),
+                              ) : Text("No description available", style: TextStyle(fontSize: style.fontSmall),),
+                            collapsedBackgroundColor: style.tertiary,
                             collapsedTextColor: Colors.black,
                             textColor: Colors.black,
-                            backgroundColor: Color(0xffececbb),
+                            backgroundColor: style.secondary,
                             children: [
                               ListTile(
                                 title: Text(state.allPois[index]['address']),
                                 subtitle: Text(state.allPois[index]['website']),
-                                tileColor: Colors.white,
                               )
                             ]
                           ),
                         )
-                      ) : const Text('No results', style: TextStyle(fontSize: 24),)
+                      ) : Text('No results', style: TextStyle(fontSize: style.fontBig),)
                     )
                   ],
                 ),

@@ -5,6 +5,7 @@ import 'package:flutter_login/poi/view/poi_page.dart';
 import 'package:flutter_login/settings/view/settings_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../authentication/bloc/authentication_bloc.dart';
+import 'package:flutter_login/GlobalStyles.dart' as style;
 
 class HomePage extends StatefulWidget {
   static Route route() {
@@ -34,7 +35,9 @@ class _HomePageState extends State<HomePage> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
-            selectedItemColor: Colors.deepPurple,
+            backgroundColor: style.primary,
+            unselectedItemColor: style.secondary,
+            selectedItemColor: style.fourth,
             items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.pin_drop), label: 'Recommended'),
             BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'Map'),

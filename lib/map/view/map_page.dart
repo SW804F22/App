@@ -1,7 +1,6 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_login/login/login.dart';
+import 'package:flutter_login/GlobalStyles.dart' as style;
 
 import '../bloc/map_bloc.dart';
 import 'map_form.dart';
@@ -17,7 +16,7 @@ class MapPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title:Center(child: const Text('Maps')),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: style.primary,
       ),
       body: BlocProvider(
         create: (context) {

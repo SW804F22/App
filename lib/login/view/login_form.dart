@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_login/login/login.dart';
 import 'package:formz/formz.dart';
+import 'package:flutter_login/GlobalStyles.dart' as style;
 
 import '../bloc/login_bloc.dart';
 
@@ -96,7 +97,7 @@ class _LoginButton extends StatelessWidget {
             context.read<LoginBloc>().add(const LoginSubmitted());
           }
               : null,
-          style: ElevatedButton.styleFrom(primary: Colors.deepPurple),
+          style: ElevatedButton.styleFrom(primary: style.primary),
         );
       },
     );
@@ -113,7 +114,7 @@ class _RegisterButton extends StatelessWidget {
           key: const Key('registerForm_continue_raisedButton'),
           child: const Text('Register Account'),
           onPressed: () =>context.read<LoginBloc>().add(const GoRegister()),
-          style: ElevatedButton.styleFrom(primary: Colors.deepPurple),
+          style: ElevatedButton.styleFrom(primary: style.primary),
         );
       },
     );
