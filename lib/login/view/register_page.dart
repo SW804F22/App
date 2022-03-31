@@ -1,10 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_login/GlobalStyles.dart' as style;
-import 'package:flutter_login/login/view/register_form.dart';
-
-import '../bloc/login_bloc.dart';
+import 'package:poirecapi/GlobalStyles.dart' as style;
 import 'package:poirecapi/login/view/register_form.dart';
 import '../bloc/register_bloc.dart';
 
