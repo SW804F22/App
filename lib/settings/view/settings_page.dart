@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poirecapi/GlobalStyles.dart' as style;
+import 'package:poirecapi/global_styles.dart' as style;
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class SettingsPage extends StatefulWidget {

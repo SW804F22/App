@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poirecapi/map/view/map_page.dart';
 import 'package:poirecapi/settings/view/settings_page.dart';
 import 'package:poirecapi/poi/view/poi_page.dart';
-import 'package:poirecapi/GlobalStyles.dart' as style;
+import 'package:poirecapi/global_styles.dart' as style;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

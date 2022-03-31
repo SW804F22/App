@@ -1,4 +1,4 @@
-export 'GlobalStyles.dart';
+export 'global_styles.dart';
 import 'dart:ui';
 
 
