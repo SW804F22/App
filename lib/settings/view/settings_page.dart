@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poirecapi/global_styles.dart' as style;
 import '../../authentication/bloc/authentication_bloc.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -22,11 +23,12 @@ class _SettingsPageState extends State<SettingsPage> {
       home: Scaffold(
         appBar: AppBar(
           title:Center(child: const Text('Settings')),
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: style.primary,
         ),
         body:
            Center(
              child: ElevatedButton(
+               style: ElevatedButton.styleFrom(primary: style.primary),
                child: const Text('Logout'),
                onPressed: () {
                  context

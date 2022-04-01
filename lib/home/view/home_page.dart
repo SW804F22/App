@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:poirecapi/map/view/map_page.dart';
 import 'package:poirecapi/settings/view/settings_page.dart';
+import 'package:poirecapi/poi/view/poi_page.dart';
+import 'package:poirecapi/global_styles.dart' as style;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,10 +19,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
 
   static final List<Widget> _pages = <Widget>[
-    Icon(
-      Icons.pin_drop,
-      size: 250,
-    ),
+    PoiPage(),
     MapPage(),
     SettingsPage(),
   ];
@@ -35,7 +34,9 @@ class _HomePageState extends State<HomePage> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
-            selectedItemColor: Colors.deepPurple,
+            backgroundColor: style.primary,
+            unselectedItemColor: style.secondary,
+            selectedItemColor: style.fourth,
             items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.pin_drop), label: 'Recommended'),
             BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'Map'),
