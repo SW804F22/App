@@ -20,3 +20,12 @@ class PoiInit extends PoiEvent {
   @override
   List<Object> get props => [position];
 }
+
+class SearchQueryChanged extends PoiEvent{
+  const SearchQueryChanged(this.searchQuery);
+
+  final String searchQuery;
+
+  @override
+  List<Object> get props => [searchQuery];
+}

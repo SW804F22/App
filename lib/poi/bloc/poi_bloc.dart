@@ -10,6 +10,7 @@ part 'poi_state.dart';
 class PoiBloc extends Bloc<PoiEvent, PoiState> {
   PoiBloc() : super(PoiState()) {
     on<PoiInit>(_onPoiInit);
+    on<SearchQueryChanged>(_onSearchQueryChanged);
   }
 
   void _onPoiInit(
@@ -37,5 +38,12 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
     emit(state.copyWith(
       allPois: allPois
     ));
+  }
+
+  void _onSearchQueryChanged(
+      SearchQueryChanged event,
+      Emitter<PoiState> emit,
+      ) {
+    print("Hello");
   }
 }

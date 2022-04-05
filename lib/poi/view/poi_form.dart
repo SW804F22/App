@@ -11,16 +11,19 @@ class PoiForm extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return BlocBuilder<PoiBloc, PoiState>(
+        buildWhen: (previous, current) => previous.allPois != current.allPois,
         builder: (context, state){
           context.read<PoiBloc>().add(PoiInit(LatLng(55.67, 12.56)));
           return MaterialApp(
             color: style.fourth,
             debugShowCheckedModeBanner: false,
             home: Scaffold(
+              resizeToAvoidBottomInset: false,
               body: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
+                    _FilterBar(),
                     Expanded(
                       child: state.allPois.isNotEmpty ? ListView.builder(
                         itemCount: state.allPois.length,
@@ -61,4 +64,30 @@ class PoiForm extends StatelessWidget{
         }
     );
   }
+}
+
+class _FilterBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<PoiBloc, PoiState>(
+        builder: (context, state) {
+          return TextField(
+            onChanged: (searchString) =>
+                context.read<PoiBloc>().add(SearchQueryChanged(searchString)),
+            decoration: InputDecoration(
+                labelText: 'Search',
+                suffixIcon: _getFilterButton(),
+                )
+            );
+        }
+    );
+  }
+}
+
+Widget _getFilterButton(){
+  return IconButton(
+      onPressed: () => print('Hello'),
+      icon: Icon(Icons.filter_alt),
+      color: Colors.blue,
+  );
 }
