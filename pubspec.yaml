@@ -30,6 +30,7 @@ dependencies:
   bloc: ^8.0.3
   meta: ^1.7.0
   uuid: ^3.0.6
+  search_choices: ^2.0.19
 
 
 dev_dependencies:

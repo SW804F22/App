@@ -27,7 +27,6 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
     );
     List<Map<String, dynamic>> allPois = [];
     List resList = json.decode(response.body);
-    //var map1 = Map.fromIterable(poiList, key: (e) => e.poi)
     for (var poi in resList) {
       allPois.add(
         {'uuid': poi['uuid'], 'title': poi['title'], 'description': poi['description'],

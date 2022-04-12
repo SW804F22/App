@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:search_choices/search_choices.dart';
 import '../bloc/poi_bloc.dart';
 import 'package:poirecapi/global_styles.dart' as style;
 
@@ -67,27 +68,47 @@ class PoiForm extends StatelessWidget{
 }
 
 class _FilterBar extends StatelessWidget {
+  final items = [DropdownMenuItem(child: Text('test')), DropdownMenuItem(child: Text('test 2'))];
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PoiBloc, PoiState>(
         builder: (context, state) {
-          return TextField(
-            onChanged: (searchString) =>
-                context.read<PoiBloc>().add(SearchQueryChanged(searchString)),
-            decoration: InputDecoration(
-                labelText: 'Search',
-                suffixIcon: _getFilterButton(),
-                )
-            );
+          return SearchChoices.multiple(
+            items: items,
+            selectedItems: [],
+            hint: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Text('Select any'),
+            ),
+            searchHint: "Select any",
+            onChanged: (value) {print('hello friend');},
+            dialogBox: false,
+            closeButton: (selectedItemsClose, closeContext, Function updateParent) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  ElevatedButton(
+                      onPressed: (){
+                        selectedItemsClose.clear();
+                        selectedItemsClose.addAll(
+                          Iterable<int>.generate(items.length).toList());
+                        updateParent(selectedItemsClose);
+                      },
+                      child: Text('Select All')),
+                  ElevatedButton(
+                      onPressed: () {
+                        selectedItemsClose.clear();
+                        updateParent(selectedItemsClose);
+                      },
+                      child: Text('Select none'))
+                ],
+              );
+             },
+            isExpanded: true,
+            menuConstraints: BoxConstraints.tight(Size.fromHeight(350)),
+          );
         }
     );
   }
-}
-
-Widget _getFilterButton(){
-  return IconButton(
-      onPressed: () => print('Hello'),
-      icon: Icon(Icons.filter_alt),
-      color: Colors.blue,
-  );
 }
