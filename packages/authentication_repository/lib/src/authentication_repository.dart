@@ -83,7 +83,9 @@ class AuthenticationRepository {
           'Content-Type': 'application/json; charset=UTF-8',
         }
     );
-
+    if(response.statusCode == 404){
+      return List.empty();
+    }
     return json.decode(response.body) as List;
   }
 
