@@ -53,7 +53,5 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     emit(state.copyWith(
       selectedMarker : event.selectedGoogleMarker,
     ));
-
-    print(state.selectedMarker.name);
   }
 }

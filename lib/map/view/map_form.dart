@@ -3,14 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:authentication_repository/authentication_repository.dart';
-
+import 'package:poirecapi/global_styles.dart' as style;
 
 import '../bloc/map_bloc.dart';
 import '../models/marker.dart';
 
 class MapForm extends StatelessWidget {
 
-  //final bloc = MapBloc();
   late GoogleMapController mapController;
   final AuthenticationRepository _authenticationRepository = AuthenticationRepository();
   final Location _location = Location();
@@ -37,10 +36,89 @@ class MapForm extends StatelessWidget {
     return BlocBuilder<MapBloc, MapState>(
       buildWhen: (previous, current) => previous.markers != current.markers || previous.selectedMarker != current.selectedMarker,
       builder: (context, state) {
+        List<Widget> cards = [
+          Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+            margin: EdgeInsets.symmetric(vertical: 7),
+            child: ListTile (
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+              title: RichText(
+                text: TextSpan(text: "Description",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: style.fontBig, color: Colors.black),
+                ),
+                textAlign: TextAlign.center,
+                ),
+              subtitle: state.selectedMarker.description.isNotEmpty
+                  ? Text(state.selectedMarker.description, style: TextStyle(fontSize: style.fontMedium),)
+                  : Text("No description available", style: TextStyle(fontSize: style.fontMedium),),
+              textColor: Colors.black,
+              tileColor: style.fourth,
+            ),
+          ),
+          Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50),),
+            margin: EdgeInsets.symmetric(vertical: 7),
+            child: ListTile (
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+              title: RichText(
+                text: TextSpan(text: "Info",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: style.fontBig, color: Colors.black),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              subtitle: RichText(text: TextSpan(text: state.selectedMarker.address.isNotEmpty
+                  ? 'Category:\n${state.selectedMarker.categories} \n\n'
+                  : "No category available\n",
+                  style: TextStyle(fontSize: style.fontMedium, color: Colors.black),
+                  children: [
+                    TextSpan(
+                      text:  state.selectedMarker.website.isNotEmpty
+                          ? 'Price Step: ${state.selectedMarker.price}'
+                          : "No price information available\n",
+                      style: TextStyle(fontSize: style.fontMedium, color: Colors.black),
+                    ),
+                  ]),),
+              textColor: Colors.black,
+              tileColor: style.fourth,
+            ),
+          ),
+          Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50),),
+            margin: EdgeInsets.symmetric(vertical: 7),
+            child: ListTile (
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+              title: RichText(
+                text: TextSpan(text: "Where to find",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: style.fontBig, color: Colors.black),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              subtitle: RichText(text: TextSpan(text: state.selectedMarker.address.isNotEmpty
+                  ? 'Address:\n${state.selectedMarker.address} \n\n'
+                  : "No address available\n",
+                  style: TextStyle(fontSize: style.fontMedium, color: Colors.black),
+                  children: [
+                TextSpan(
+                  text:  state.selectedMarker.website.isNotEmpty
+                      ? 'Website:\n${state.selectedMarker.website}'
+                      : "No website available\n",
+                    style: TextStyle(fontSize: style.fontMedium, color: Colors.black),
+                ),
+              ]),),
+              textColor: Colors.black,
+              tileColor: style.fourth,
+            ),
+          ),
+
+        ];
         LatLngBounds pos;
         List poIList;
         final List<MarkerModel> markers = [];
         final Set<Marker> googleMarkers = {};
+        String categoriesString;
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           home: Scaffold(
@@ -57,17 +135,24 @@ class MapForm extends StatelessWidget {
                     (pos.northeast.latitude + pos.southwest.latitude) / 2,
                     (pos.northeast.longitude + pos.southwest.longitude) / 2),
 
+              if(poIList.isNotEmpty){
+
                 for(var poi in poIList){
+                  categoriesString = "",
+                  for(var categories in poi['categories']){
+                    categoriesString += categories + ", "
+                  },
+
                   markers.add(MarkerModel(
                       poi['title'] as String,
-                      poi['uuid'] as String,
+                      poi['id'] as String,
                       poi['description'] as String,
                       poi['longitude'] as double,
                       poi['latitude'] as double,
-                      "Some category",
+                      categoriesString,
                       poi['website'] as String,
                       poi['address'] as String,
-                      poi['priceStep'] as int))
+                      poi['priceStep'] as int)),
                 },
 
                 for(var marker in markers){
@@ -85,10 +170,14 @@ class MapForm extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       AlertDialog(
+                                        scrollable: true,
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+                                        backgroundColor: style.tertiary,
                                         title: Text(
-                                            state.selectedMarker.name),
-                                        content: Text(
-                                            state.selectedMarker.website),
+                                            state.selectedMarker.name, textAlign: TextAlign.center,),
+                                        content: Column(
+                                          children: cards,
+                                        ),
                                         actions: [
                                           TextButton(
                                               onPressed: () =>
@@ -101,12 +190,15 @@ class MapForm extends StatelessWidget {
                           title: marker.name,
                           snippet: marker.description,
                         ),
-                      )),
+                      )
+                  ),
                 },
                 context.read<MapBloc>().add(
                     MapStoppedEvent(googleMarkers, markers))
               },
-            ),),
+              },
+            ),
+          ),
         );
       },
     );
