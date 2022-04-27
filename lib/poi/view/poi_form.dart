@@ -26,21 +26,26 @@ class PoiForm extends StatelessWidget{
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    TextButton(
-                        onPressed: () => {
-                          SelectDialog.showModal<String>(
-                            context,
-                            label: "Category filter",
-                            searchBoxDecoration: InputDecoration(hintText: 'Search Category'),
-                            alwaysShowScrollBar: true,
-                            multipleSelectedValues: [],
-                            items: state.categories,
-                            onMultipleItemsChange: (List<String> selected) {
-                              context.read<PoiBloc>().add(CategoryFilter(selected, LatLng(55.67, 12.56)));
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search location',
+                        suffixIcon: TextButton(
+                            onPressed: () => {
+                              SelectDialog.showModal<String>(
+                                context,
+                                label: "Category filter",
+                                searchBoxDecoration: InputDecoration(hintText: 'Search Category'),
+                                alwaysShowScrollBar: true,
+                                multipleSelectedValues: [],
+                                items: state.categories,
+                                onMultipleItemsChange: (List<String> selected) {
+                                  context.read<PoiBloc>().add(CategoryFilter(selected, LatLng(55.67, 12.56)));
+                                },
+                              )
                             },
-                          )
-                        },
-                        child: Icon(Icons.filter_alt)
+                            child: Icon(Icons.filter_alt)
+                        ),
+                      ),
                     ),
                     Expanded(
                         child: state.allPois.isNotEmpty ? ListView.builder(
