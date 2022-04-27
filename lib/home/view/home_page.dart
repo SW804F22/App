@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poirecapi/map/view/map_page.dart';
-import 'package:poirecapi/settings/view/settings_page.dart';
+import 'package:poirecapi/settings/view/settings_main.dart';
 import 'package:poirecapi/poi/view/poi_page.dart';
 import 'package:poirecapi/global_styles.dart' as style;
 
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   static final List<Widget> _pages = <Widget>[
     PoiPage(),
     MapPage(),
-    SettingsPage(),
+    SettingsMain(),
   ];
 
   @override
