@@ -464,13 +464,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
-  search_choices:
+  select_dialog:
     dependency: "direct main"
     description:
-      name: search_choices
+      name: select_dialog
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.19"
+    version: "2.0.0"
   shelf:
     dependency: transitive
     description:
