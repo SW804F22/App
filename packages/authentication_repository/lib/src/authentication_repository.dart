@@ -58,8 +58,6 @@ class AuthenticationRepository {
       }),
     );
 
-    print(response.body);
-
     if(response.statusCode == 200){
       _controller.add(AuthenticationStatus.unauthenticated);
     }

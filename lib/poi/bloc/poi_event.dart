@@ -20,3 +20,20 @@ class PoiInit extends PoiEvent {
   @override
   List<Object> get props => [position];
 }
+
+class CategoryInit extends PoiEvent {
+  const CategoryInit();
+
+  @override
+  List<Object> get props => [];
+}
+
+class CategoryFilter extends PoiEvent {
+  const CategoryFilter(this.categoriesFilter, this.position);
+
+  final List<String> categoriesFilter;
+  final LatLng position;
+
+  @override
+  List<Object> get props => [categoriesFilter, position];
+}
