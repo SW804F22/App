@@ -14,6 +14,8 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
     on<CategoryFilter>(_onCategoryFilter);
   }
 
+  //final PoiRepository _poiRepository;
+
   void _onPoiInit(
       PoiInit event,
       Emitter<PoiState> emit,) async
