@@ -11,12 +11,14 @@ class PoiForm extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return BlocBuilder<PoiBloc, PoiState>(
-        buildWhen: (previous, current) => previous.allPois != current.allPois,
+        buildWhen: (previous, current) => previous.allPois != current.allPois || previous.allCategories != current.allCategories,
         builder: (context, state){
           if(state.allPois.isEmpty){
             context.read<PoiBloc>().add(PoiInit(LatLng(55.67, 12.56)));
           }
-          context.read<PoiBloc>().add(CategoryInit());
+          if(state.allCategories.isEmpty){
+            context.read<PoiBloc>().add(CategoryInit());
+          }
           return MaterialApp(
             color: style.fourth,
             debugShowCheckedModeBanner: false,
@@ -27,6 +29,9 @@ class PoiForm extends StatelessWidget{
                 child: Column(
                   children: [
                     TextField(
+                      onChanged: (searchQuery) {
+                        context.read<PoiBloc>().add(SearchPoi(searchQuery, LatLng(55.67, 12.56), state.selectedCategories));
+                      },
                       decoration: InputDecoration(
                         hintText: 'Search location',
                         suffixIcon: TextButton(
@@ -36,8 +41,8 @@ class PoiForm extends StatelessWidget{
                                 label: "Category filter",
                                 searchBoxDecoration: InputDecoration(hintText: 'Search Category'),
                                 alwaysShowScrollBar: true,
-                                multipleSelectedValues: [],
-                                items: state.categories,
+                                multipleSelectedValues: state.selectedCategories,
+                                items: state.allCategories,
                                 onMultipleItemsChange: (List<String> selected) {
                                   context.read<PoiBloc>().add(CategoryFilter(selected, LatLng(55.67, 12.56)));
                                 },

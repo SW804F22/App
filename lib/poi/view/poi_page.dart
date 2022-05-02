@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poi_repository/poi_repository.dart';
 import 'package:poirecapi/global_styles.dart' as style;
 
 import '../bloc/poi_bloc.dart';
@@ -16,15 +17,18 @@ class PoiPage extends StatelessWidget {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: const Text('Your recommendations')),
+        title: Center(child: const Text('Your Recommendations')),
         backgroundColor: style.primary,
       ),
       body: BlocProvider(
         create: (context) {
-          return PoiBloc();
+          return PoiBloc(
+              poiRepository:
+              RepositoryProvider.of<PoiRepository>(context),
+          );
         },
         child: PoiForm(),
-      ),
+      )
     );
   }
 }

@@ -19,6 +19,8 @@ dependencies:
     path: packages/authentication_repository
   user_repository:
     path: packages/user_repository
+  poi_repository:
+    path: packages/poi_repository
   google_maps_flutter: ^2.1.2
   flutter_config: ^2.0.0
   location: ^4.3.0

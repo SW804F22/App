@@ -1,5 +1,6 @@
 name: poi_repository
 description: Dart package which manages the poi domain
+publish_to: none
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
