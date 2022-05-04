@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maps_repository/maps_repository.dart';
 import 'package:poi_repository/poi_repository.dart';
 import 'package:poirecapi/login/view/register_page.dart';
 import 'package:poirecapi/splash/view/splash_page.dart';
@@ -8,6 +9,7 @@ import 'package:user_repository/user_repository.dart';
 
 import 'authentication/bloc/authentication_bloc.dart';
 import 'poi/bloc/poi_bloc.dart';
+import 'map/bloc/map_bloc.dart';
 import 'home/view/home_page.dart';
 import 'login/view/login_page.dart';
 
@@ -17,11 +19,13 @@ class App extends StatelessWidget {
     required this.authenticationRepository,
     required this.userRepository,
     required this.poiRepository,
+    required this.mapsRepository,
   }) : super(key: key);
 
   final AuthenticationRepository authenticationRepository;
   final UserRepository userRepository;
   final PoiRepository poiRepository;
+  final MapsRepository mapsRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +34,18 @@ class App extends StatelessWidget {
       child: BlocProvider(
         create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository, userRepository: userRepository),
         child: RepositoryProvider.value(
-          value: poiRepository,
+          value: mapsRepository,
           child: BlocProvider(
-            create: (_) => PoiBloc(poiRepository: poiRepository),
-            child: AppView(),
-          ),
-        )
+            create: (_) => MapBloc(mapsRepository: mapsRepository, poiRepository: poiRepository),
+            child: RepositoryProvider.value(
+              value: poiRepository,
+              child: BlocProvider(
+                create: (_) => PoiBloc(poiRepository: poiRepository, mapsRepository: mapsRepository),
+                child: AppView(),
+              ),
+            )
+          )
+        ),
       )
     );
   }

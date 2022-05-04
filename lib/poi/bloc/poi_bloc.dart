@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_repository/maps_repository.dart';
 import 'package:poi_repository/poi_repository.dart';
 
 part 'poi_event.dart';
@@ -8,8 +9,10 @@ part 'poi_state.dart';
 
 class PoiBloc extends Bloc<PoiEvent, PoiState> {
   PoiBloc({
-    required PoiRepository poiRepository
+    required PoiRepository poiRepository,
+    required MapsRepository mapsRepository,
   }) : _poiRepository = poiRepository,
+       _mapsRepository = mapsRepository,
         super(PoiState()) {
     on<PoiInit>(_onPoiInit);
     on<CategoryInit>(_onCategoryInit);
@@ -18,12 +21,13 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
   }
 
   final PoiRepository _poiRepository;
+  final MapsRepository _mapsRepository;
 
   void _onPoiInit(
       PoiInit event,
       Emitter<PoiState> emit,) async
   {
-    var pos = event.position;
+    var pos = _mapsRepository.position;
     List<Map<String, dynamic>> allPois = [];
     List resList = await _poiRepository.returnPois(lat: pos.latitude, long: pos.longitude);
     for (var poi in resList) {
@@ -38,7 +42,8 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
     }
 
     emit(state.copyWith(
-      allPois: allPois
+      allPois: allPois,
+      position: pos,
     ));
   }
 
@@ -59,7 +64,7 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
       Emitter<PoiState> emit
       ) async {
 
-    var pos = event.position;
+    var pos = _mapsRepository.position;
 
     List<Map<String, dynamic>> allPois = [];
     List resList = await _poiRepository.returnPois(
@@ -82,7 +87,8 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
 
     emit(state.copyWith(
       allPois: allPois,
-      selectedCategories: event.categoriesFilter
+      selectedCategories: event.categoriesFilter,
+      position: pos
     ));
   }
 
@@ -92,7 +98,7 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
       ) async {
 
     var searchQuery = event.searchQuery;
-    var pos = event.position;
+    var pos = _mapsRepository.position;
 
     List<Map<String, dynamic>> allPois = [];
     List resList = await _poiRepository.returnPois(
@@ -117,6 +123,7 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
 
     emit(state.copyWith(
       allPois: allPois,
+      position: pos
     ));
   }
 }

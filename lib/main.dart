@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/widgets.dart';
+import 'package:maps_repository/maps_repository.dart';
 import 'package:poi_repository/poi_repository.dart';
 import 'package:poirecapi/app.dart';
 import 'package:user_repository/user_repository.dart';
@@ -14,5 +15,6 @@ void main() async {
     authenticationRepository: AuthenticationRepository(),
     userRepository: UserRepository(),
     poiRepository: PoiRepository(),
+    mapsRepository: MapsRepository(),
   ));
 }

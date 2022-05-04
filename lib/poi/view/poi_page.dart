@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maps_repository/maps_repository.dart';
 import 'package:poi_repository/poi_repository.dart';
 import 'package:poirecapi/global_styles.dart' as style;
 
@@ -23,11 +24,13 @@ class PoiPage extends StatelessWidget {
       body: BlocProvider(
         create: (context) {
           return PoiBloc(
-              poiRepository:
+            poiRepository:
               RepositoryProvider.of<PoiRepository>(context),
+            mapsRepository:
+              RepositoryProvider.of<MapsRepository>(context)
           );
         },
-        child: PoiForm(),
+        child: PoiFormTest(),
       )
     );
   }

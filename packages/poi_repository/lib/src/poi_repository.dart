@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PoiRepository{
+
+  var position = LatLng(0, 0);
 
   //Returns a list of all pois based on location and categories
   Future<List> returnPois({required double lat, required double long,
                            List<String>? categories, String? search})
   async {
-
     // Category query
     String catString = "";
     if(categories != null){
@@ -25,7 +27,7 @@ class PoiRepository{
 
     final response = await http.get(
         Uri.parse("http://poirecserver.swedencentral.cloudapp.azure.com/Poi/search?name=${searchString}&"
-            "${catString}latitude=$lat&longitude=$long&distance=0.5&limit=50"),
+            "${catString}latitude=${position.latitude}&longitude=${position.longitude}&distance=0.01&limit=50"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         }

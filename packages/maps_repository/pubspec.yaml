@@ -1,5 +1,5 @@
-name: poi_repository
-description: Dart package which manages the poi domain
+name: maps_repository
+description: Dart package which manages the maps domain.
 publish_to: none
 
 environment:
