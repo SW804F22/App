@@ -194,7 +194,7 @@ class MapForm extends StatelessWidget {
                   ),
                 },
                 context.read<MapBloc>().add(
-                    MapStoppedEvent(googleMarkers, markers))
+                    MapStoppedEvent(googleMarkers, markers)),
               },
               },
             ),

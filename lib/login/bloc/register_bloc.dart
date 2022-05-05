@@ -22,6 +22,7 @@ super(const RegisterState()) {
   on<RegisterSubmitted>(_onSubmitted);
   on<RegisterGenderChanged>(_onGenderChanged);
   on<RegisterAgeChanged>(_onAgeChanged);
+  on<GoBackEvent>(_goBack);
 }
 
 final AuthenticationRepository _authenticationRepository;
@@ -67,6 +68,13 @@ void _onAgeChanged(
   ));
 }
 
+void _goBack(
+    GoBackEvent event,
+    Emitter<RegisterState> emit,
+    ) async {
+  _authenticationRepository.logOut();
+}
+
 void _onSubmitted(
     RegisterSubmitted event,
     Emitter<RegisterState> emit,
@@ -80,7 +88,7 @@ void _onSubmitted(
         gender: int.parse(state.gender),
         age: state.age,
       );
-      if(response.statusCode != 200) {
+      if(response.statusCode != 201) {
         throw Future.error("Failed to register. Status code: ${response.statusCode}");
       } else {
         emit(state.copyWith(status: FormzStatus.submissionSuccess));

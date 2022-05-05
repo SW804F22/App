@@ -16,8 +16,12 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Center(child: const Text('Register')),
+        title:Center(child: const Text('Register             ')),
         backgroundColor: style.primary,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: style.secondary),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

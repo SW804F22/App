@@ -34,3 +34,13 @@ class NewPassChange extends SettingsEvent {
   @override
   List<Object> get props => [newPass];
 }
+
+class SubmitPassChange extends SettingsEvent {
+  const SubmitPassChange(this.newPass, this.oldPass);
+
+  final String newPass;
+  final String oldPass;
+
+  @override
+  List<Object> get props => [newPass, oldPass];
+}
