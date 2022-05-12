@@ -26,13 +26,24 @@ class MapMarkersInit extends MapEvent {
 }
 
 class MapStoppedEvent extends MapEvent {
-  const MapStoppedEvent(this.googleMarkers, this.customMarkers);
+  const MapStoppedEvent(this.position, this.googleMarkers, this.customMarkers);
 
+  //final Set<Marker> googleMarkers;
+  final LatLng position;
   final Set<Marker> googleMarkers;
   final List<MarkerModel> customMarkers;
 
   @override
-  List<Object> get props => [googleMarkers, customMarkers];
+  List<Object> get props => [position, googleMarkers, customMarkers];
+}
+
+class UpdateGoogleMarkers extends MapEvent {
+  const UpdateGoogleMarkers(this.googleMarkers);
+
+  final Set<Marker> googleMarkers;
+
+  @override
+  List<Object> get props => [googleMarkers];
 }
 
 class OnMarkerSelect extends MapEvent {

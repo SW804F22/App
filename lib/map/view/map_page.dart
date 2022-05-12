@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maps_repository/maps_repository.dart';
+import 'package:poi_repository/poi_repository.dart';
 import 'package:poirecapi/global_styles.dart' as style;
 
 import '../bloc/map_bloc.dart';
@@ -22,8 +24,13 @@ class MapPage extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (context) {
-      return MapBloc();
-    },
+          return MapBloc(
+            mapsRepository:
+              RepositoryProvider.of<MapsRepository>(context),
+            poiRepository:
+              RepositoryProvider.of<PoiRepository>(context)
+          );
+        },
     child: MapForm(),
     ),
     );

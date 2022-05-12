@@ -1,33 +1,35 @@
-import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
+import 'package:maps_repository/maps_repository.dart';
+import 'package:poi_repository/poi_repository.dart';
 
 part 'poi_event.dart';
 part 'poi_state.dart';
 
 class PoiBloc extends Bloc<PoiEvent, PoiState> {
-  PoiBloc() : super(PoiState()) {
+  PoiBloc({
+    required PoiRepository poiRepository,
+    required MapsRepository mapsRepository,
+  }) : _poiRepository = poiRepository,
+       _mapsRepository = mapsRepository,
+        super(PoiState()) {
     on<PoiInit>(_onPoiInit);
     on<CategoryInit>(_onCategoryInit);
     on<CategoryFilter>(_onCategoryFilter);
+    on<SearchPoi>(_onSearchPoi);
   }
+
+  final PoiRepository _poiRepository;
+  final MapsRepository _mapsRepository;
 
   void _onPoiInit(
       PoiInit event,
       Emitter<PoiState> emit,) async
   {
-    var pos = event.position;
-    final response = await http.get(
-        Uri.parse("http://poirecserver.swedencentral.cloudapp.azure.com/Poi/search?latitude="
-            "${pos.latitude}&longitude=${pos.longitude}&distance=0.5&limit=100"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        }
-    );
+    var pos = _mapsRepository.position;
     List<Map<String, dynamic>> allPois = [];
-    List resList = json.decode(response.body);
+    List resList = await _poiRepository.returnPois(lat: pos.latitude, long: pos.longitude);
     for (var poi in resList) {
       String categoriesString = "";
       for(var categories in poi['categories']){
@@ -40,7 +42,8 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
     }
 
     emit(state.copyWith(
-      allPois: allPois
+      allPois: allPois,
+      position: pos,
     ));
   }
 
@@ -49,17 +52,10 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
       Emitter<PoiState> emit
       ) async {
 
-    final response = await http.get(
-        Uri.parse("http://poirecserver.swedencentral.cloudapp.azure.com/Poi/Category"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        }
-    );
-
-    List<String> categories = json.decode(response.body).cast<String>();
+    final List<String >categories = await _poiRepository.returnCategories();
 
     emit(state.copyWith(
-      categories: categories
+      allCategories: categories
     ));
   }
 
@@ -68,38 +64,66 @@ class PoiBloc extends Bloc<PoiEvent, PoiState> {
       Emitter<PoiState> emit
       ) async {
 
-    var pos = event.position;
-    List<String> cats = event.categoriesFilter;
-    String catString = "";
-
-    for(var cat in cats){
-      catString += "category=$cat&";
-    }
-
-    print(catString);
-    final response = await http.get(
-        Uri.parse("http://poirecserver.swedencentral.cloudapp.azure.com/Poi/search?${catString}latitude="
-            "${pos.latitude}&longitude=${pos.longitude}&distance=0.5&limit=100"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        }
-    );
+    var pos = _mapsRepository.position;
 
     List<Map<String, dynamic>> allPois = [];
-    List resList = json.decode(response.body);
+    List resList = await _poiRepository.returnPois(
+        lat: pos.latitude,
+        long: pos.longitude,
+        categories: event.categoriesFilter,
+    );
+
     for (var poi in resList) {
       String categoriesString = "";
       for(var categories in poi['categories']){
         categoriesString += categories + ", ";
       }
       allPois.add(
-          {'uuid': poi['uuid'], 'title': poi['title'], 'description': poi['description'], 'category': categoriesString,
+          {'uuid': poi['uuid'], 'title': poi['title'],
+           'description': poi['description'], 'category': categoriesString,
+           'website': poi['website'], 'address': poi['address'], 'price': poi['priceStep']}
+      );
+    }
+
+    emit(state.copyWith(
+      allPois: allPois,
+      selectedCategories: event.categoriesFilter,
+      position: pos
+    ));
+  }
+
+  void _onSearchPoi(
+      SearchPoi event,
+      Emitter<PoiState> emit
+      ) async {
+
+    var searchQuery = event.searchQuery;
+    var pos = _mapsRepository.position;
+
+    List<Map<String, dynamic>> allPois = [];
+    List resList = await _poiRepository.returnPois(
+      lat: pos.latitude,
+      long: pos.longitude,
+      search: searchQuery,
+      categories: event.categories.isNotEmpty ? event.categories : null
+    );
+
+    // Format the data to fit the flutter widget
+    for (var poi in resList) {
+      String categoriesString = "";
+      for(var categories in poi['categories']){
+        categoriesString += categories + ", ";
+      }
+      allPois.add(
+          {'uuid': poi['uuid'], 'title': poi['title'],
+            'description': poi['description'], 'category': categoriesString,
             'website': poi['website'], 'address': poi['address'], 'price': poi['priceStep']}
       );
     }
 
     emit(state.copyWith(
-      allPois: allPois
+      allPois: allPois,
+      position: pos
     ));
   }
 }
