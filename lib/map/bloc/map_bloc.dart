@@ -35,32 +35,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   {
     var pos = event.position;
     _poiRepository.position = pos;
-    List<dynamic> allMarkers = await _mapsRepository.returnMarkers(lat: pos.latitude, long: pos.longitude);
-    List<MarkerModel> customMarkers = [];
-    
-    if(allMarkers.isNotEmpty) {
-      for (var poi in allMarkers) {
-        var categoriesString = "";
-        for (var categories in poi['categories']) {
-          categoriesString += categories + ", ";
-        }
-
-        customMarkers.add(MarkerModel(
-            poi['title'] as String,
-            poi['id'] as String,
-            poi['description'] as String,
-            poi['longitude'] as double,
-            poi['latitude'] as double,
-            categoriesString,
-            poi['website'] as String,
-            poi['address'] as String,
-            poi['priceStep'] as int)
-        );
-      }
-    }
     emit(state.copyWith(
-      customMarkers: customMarkers,
-      rebuildPoi: event.rebuildPoi
+      markers: event.googleMarkers,
+      customMarkers: event.customMarkers,
     ));
   }
 

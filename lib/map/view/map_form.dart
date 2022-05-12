@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -5,11 +6,13 @@ import 'package:location/location.dart';
 import 'package:poirecapi/global_styles.dart' as style;
 
 import '../bloc/map_bloc.dart';
+import '../models/marker.dart';
 
 class MapForm extends StatelessWidget {
   MapForm({Key? key}) : super(key: key);
 
   late GoogleMapController mapController;
+  final AuthenticationRepository _authenticationRepository = AuthenticationRepository();
   final Location _location = Location();
   final LatLng _center = const LatLng(55.68, 12.5810);
 
@@ -32,9 +35,8 @@ class MapForm extends StatelessWidget {
     return BlocBuilder<MapBloc, MapState>(
       buildWhen: (previous, current) =>
         previous.markers != current.markers ||
-        previous.selectedMarker != current.selectedMarker ||
-        previous.customMarkers != current.customMarkers,
-      builder: (context, state) {
+        previous.selectedMarker != current.selectedMarker,
+        builder: (context, state) {
         // Pop-up formatting when you click a marker
         List<Widget> cards = [
           Card(
@@ -115,7 +117,11 @@ class MapForm extends StatelessWidget {
         ];
 
         LatLngBounds pos;
+        LatLng position;
+        List poIList;
+        final List<MarkerModel> markers = [];
         final Set<Marker> googleMarkers = {};
+        String categoriesString;
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           home: Scaffold(
@@ -129,16 +135,33 @@ class MapForm extends StatelessWidget {
               {
                 // Calculate the position and pass it to bloc
                 pos = await mapController.getVisibleRegion(),
-                context.read<MapBloc>().add(
-                    MapStoppedEvent(
-                        LatLng(
-                            (pos.northeast.latitude + pos.southwest.latitude) / 2,
-                            (pos.northeast.longitude + pos.southwest.longitude) / 2
-                        ), true
-                    )
-                ),
-                print("Custom marker length: ${state.customMarkers.length}"),
-                  for(var marker in state.customMarkers){
+                position = LatLng(
+                    (pos.northeast.latitude + pos.southwest.latitude) / 2,
+                    (pos.northeast.longitude + pos.southwest.longitude) / 2),
+                poIList = await _authenticationRepository.returnMarkers(
+                    position.latitude, position.longitude),
+
+                if(poIList.isNotEmpty){
+
+                  for(var poi in poIList){
+                    categoriesString = "",
+                    for(var categories in poi['categories']){
+                      categoriesString += categories + ", "
+                    },
+
+                    markers.add(MarkerModel(
+                        poi['title'] as String,
+                        poi['id'] as String,
+                        poi['description'] as String,
+                        poi['longitude'] as double,
+                        poi['latitude'] as double,
+                        categoriesString,
+                        poi['website'] as String,
+                        poi['address'] as String,
+                        poi['priceStep'] as int)
+                    ),
+                  },
+                  for(var marker in markers){
                     googleMarkers.add(
                       Marker(
                         markerId: MarkerId(marker.uuid),
@@ -154,10 +177,13 @@ class MapForm extends StatelessWidget {
                                   builder: (BuildContext context) =>
                                       AlertDialog(
                                         scrollable: true,
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              10),),
                                         backgroundColor: style.tertiary,
                                         title: Text(
-                                            state.selectedMarker.name, textAlign: TextAlign.center,),
+                                          state.selectedMarker.name,
+                                          textAlign: TextAlign.center,),
                                         content: Column(
                                           children: cards,
                                         ),
@@ -176,8 +202,10 @@ class MapForm extends StatelessWidget {
                       ),
                     ),
                   },
-                // Update the google markers in the state
-                context.read<MapBloc>().add(UpdateGoogleMarkers(googleMarkers))
+                  // Update the google markers in the state
+                  context.read<MapBloc>().add(
+                      MapStoppedEvent(position, googleMarkers, markers)),
+                },
               },
             ),
           ),
