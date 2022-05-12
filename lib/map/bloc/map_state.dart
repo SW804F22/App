@@ -20,10 +20,10 @@ class MapState extends Equatable {
     MarkerModel? selectedMarker,
   }) {
     return MapState(
-    markers: markers ?? this.markers,
-    customMarkers: customMarkers ?? this.customMarkers,
-    position: position ?? this.position,
-    selectedMarker: selectedMarker ?? this.selectedMarker,
+      markers: markers ?? this.markers,
+      customMarkers: customMarkers ?? this.customMarkers,
+      position: position ?? this.position,
+      selectedMarker: selectedMarker ?? this.selectedMarker,
     );
   }
 

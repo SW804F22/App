@@ -9,18 +9,13 @@ abstract class PoiEvent extends Equatable {
 
 //When the screen is first loaded
 class PoiInit extends PoiEvent {
-  const PoiInit(this.position);
-
-  //This is for testing purposes!
-  //The endpoint will need to be updated in the future
-  final LatLng position;
-
-  //final List<Map<String, dynamic>> allPois;
+  const PoiInit();
 
   @override
-  List<Object> get props => [position];
+  List<Object> get props => [];
 }
 
+// Load all categories
 class CategoryInit extends PoiEvent {
   const CategoryInit();
 
@@ -28,12 +23,23 @@ class CategoryInit extends PoiEvent {
   List<Object> get props => [];
 }
 
+// When the user wants to filter by category
 class CategoryFilter extends PoiEvent {
-  const CategoryFilter(this.categoriesFilter, this.position);
+  const CategoryFilter(this.categoriesFilter);
 
   final List<String> categoriesFilter;
-  final LatLng position;
 
   @override
-  List<Object> get props => [categoriesFilter, position];
+  List<Object> get props => [categoriesFilter];
+}
+
+// When the user searches for a poi name
+class SearchPoi extends PoiEvent {
+  const SearchPoi(this.searchQuery, this.categories);
+
+  final String searchQuery;
+  final List<String> categories;
+
+  @override
+  List<Object> get props => [searchQuery, categories];
 }
