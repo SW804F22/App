@@ -26,7 +26,7 @@ class PoiRepository{
     }
 
     final response = await http.get(
-        Uri.parse("http://poirecserver.swedencentral.cloudapp.azure.com/Poi/search?name=${searchString}&"
+        Uri.parse("http://poirecserver.swedencentral.cloudapp.azure.com/Poi/search?name=$searchString&"
             "${catString}latitude=${position.latitude}&longitude=${position.longitude}&distance=0.01&limit=50"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

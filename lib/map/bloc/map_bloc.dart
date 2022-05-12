@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -17,15 +15,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   MapBloc({
     required MapsRepository mapsRepository,
     required PoiRepository poiRepository,
-  }) : _mapsRepository = mapsRepository,
-       _poiRepository = poiRepository,
+  }) : _poiRepository = poiRepository,
        super(MapState()) {
     on<MapStoppedEvent>(_onMapStoppedEvent);
     on<OnMarkerSelect>(_onMarkerSelect);
     on<UpdateGoogleMarkers>(_onUpdateGoogleMarkers);
   }
 
-  final MapsRepository _mapsRepository;
   final PoiRepository _poiRepository;
 
   void _onMapStoppedEvent(

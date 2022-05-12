@@ -17,7 +17,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
-  bool _isPoI = false;
 
   static final List<Widget> _pages = <Widget>[
     PoiPage(),
@@ -56,11 +55,9 @@ class _HomePageState extends State<HomePage> {
         Navigator.of(context).push<void>(
             PoiPage.route()
         );
-        _isPoI = true;
       }
       else{
         _selectedIndex = index;
-        _isPoI = false;
       }
     });
   }
