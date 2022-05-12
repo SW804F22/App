@@ -84,9 +84,8 @@ class _AppViewState extends State<AppView> {
                 );
                 break;
               case AuthenticationStatus.registering:
-                _navigator.pushAndRemoveUntil<void>(
-                  RegisterPage.route(),
-                    (route) => false,
+                _navigator.push<void>(
+                  RegisterPage.route()
                 );
                 break;
               default:

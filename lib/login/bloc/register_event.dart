@@ -47,3 +47,10 @@ class RegisterAgeChanged extends RegisterEvent {
   @override
   List<Object> get props => [age];
 }
+
+class GoBackEvent extends RegisterEvent {
+  const GoBackEvent();
+
+  @override
+  List<Object> get props => [];
+}

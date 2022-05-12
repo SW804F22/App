@@ -4,14 +4,24 @@ import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated, registering }
+enum PassChangeStatus { unknown, succeeded, failed }
 
 class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
+  final _controllerPass = StreamController<PassChangeStatus>();
+
+  late final String userId;
 
   Stream<AuthenticationStatus> get status async* {
     await Future<void>.delayed(const Duration(seconds: 1));
     yield AuthenticationStatus.unauthenticated;
     yield* _controller.stream;
+  }
+
+  Stream<PassChangeStatus> get passStatus async* {
+    await Future<void>.delayed(const Duration(seconds: 1));
+    yield PassChangeStatus.unknown;
+    yield* _controllerPass.stream;
   }
 
   Future<http.Response> logIn({
@@ -34,6 +44,7 @@ class AuthenticationRepository {
 
     if(response.statusCode == 200){
       _controller.add(AuthenticationStatus.authenticated);
+      userId = json.decode(response.body)['id'];
     }
 
     return response;
@@ -58,7 +69,7 @@ class AuthenticationRepository {
       }),
     );
 
-    if(response.statusCode == 200){
+    if(response.statusCode == 201){
       _controller.add(AuthenticationStatus.unauthenticated);
     }
 
@@ -71,6 +82,15 @@ class AuthenticationRepository {
 
   void goRegister() {
     _controller.add(AuthenticationStatus.registering);
+    _controller.add(AuthenticationStatus.unknown);
+  }
+
+  void changedPasswordSucceeded() {
+    _controllerPass.add(PassChangeStatus.succeeded);
+  }
+
+  void changedPasswordFailed() {
+    _controllerPass.add(PassChangeStatus.failed);
   }
 
   Future<List> returnMarkers(double lat, double long) async{
@@ -87,5 +107,20 @@ class AuthenticationRepository {
     return json.decode(response.body) as List;
   }
 
-  void dispose() => _controller.close();
+  Future<http.Response> changePassword(String oldPass, String newPass) async {
+    final response = await http.post(
+        Uri.parse('http://poirecserver.swedencentral.cloudapp.azure.com/Authentication/Password/$userId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+        'oldPassword': oldPass,
+        'newPassword': newPass,
+    }),
+    );
+
+    return response;
+  }
+
+  void dispose() => {_controller.close(), _controllerPass.close()};
 }

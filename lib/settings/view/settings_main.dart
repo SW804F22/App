@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poirecapi/authentication/bloc/authentication_bloc.dart';
@@ -24,43 +25,71 @@ class _SettingsMainState extends State<SettingsMain> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SettingsBloc>(create: (BuildContext context) => SettingsBloc(),
+    return BlocProvider<SettingsBloc>(create: (BuildContext context) =>
+        SettingsBloc(authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context)),
         child: BlocBuilder<SettingsBloc, SettingsState>(
           buildWhen: (previous, current) => previous.selectedIndex != current.selectedIndex,
           builder: (context, state) {
-            return Align(
-              alignment: const Alignment(0, -1 / 3),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ElevatedButton(
-                      onPressed: () => {
-                        if(state.selectedIndex == 1){
-                          context.read<SettingsBloc>().add(IndexChangeEvent(0))
-                        }
-                        else{
-                          context.read<SettingsBloc>().add(IndexChangeEvent(1))
-                        },
+            return Scaffold(
+              appBar: AppBar(title: Center(child: Text("Settings")), backgroundColor: style.primary,),
+              body: Align(
+                alignment: const Alignment(0, -1 / 3),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedButton(
+                    onPressed: () => {
+                      if(state.selectedIndex == 1){
+                        context.read<SettingsBloc>().add(IndexChangeEvent(0))
+                      }
+                      else{
+                        context.read<SettingsBloc>().add(IndexChangeEvent(1))
                       },
-                      child: Text("Change Password"),
-                      style: ElevatedButton.styleFrom(primary: style.primary),
+                    },
+                    child: Text("Change Password"),
+                    style: ElevatedButton.styleFrom(primary: style.primary),
                   ),
-                  IndexedStack(
+                    IndexedStack(
                     index: state.selectedIndex,
                     children: _pages,
                   ),
-                  ElevatedButton(onPressed: () => context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested()),
+                    ElevatedButton(onPressed: () => context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested()),
                     child: Text("Logout"),
                     style: ElevatedButton.styleFrom(primary: style.primary),
 
-                  )
-                ],
+                  ),
+                    snack(context)
+                  ],
+              ),
             ),
             );
       },
     ));
     }
   }
+
+  
+Widget snack(BuildContext context) {
+  return BlocListener<SettingsBloc, SettingsState>(
+    listener: (context, state) {
+      if (state.status == PassChangeStatus.succeeded) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            const SnackBar(content: Text('Password Changed Successfully')),
+          );
+      }
+      if (state.status == PassChangeStatus.failed) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            const SnackBar(content: Text('Something went wrong!')),
+          );
+      }
+    },
+    child: Text(""),
+  );
+}
 
 class PassChange extends StatelessWidget {
   const PassChange({Key? key}) : super(key: key);
@@ -89,7 +118,9 @@ class PassChange extends StatelessWidget {
               ),
             ),
             Padding(padding: EdgeInsets.all(12)),
-            ElevatedButton(onPressed: () => {}, child: Text("Submit"), style: ElevatedButton.styleFrom(primary: style.primary),
+            ElevatedButton(onPressed: () => {
+              context.read<SettingsBloc>().add(SubmitPassChange(state.newPass, state.oldPass))},
+              child: Text("Submit"), style: ElevatedButton.styleFrom(primary: style.primary),
             )
           ],
         );
