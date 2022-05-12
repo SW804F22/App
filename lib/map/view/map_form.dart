@@ -11,7 +11,7 @@ class MapForm extends StatelessWidget {
 
   late GoogleMapController mapController;
   final Location _location = Location();
-  final LatLng _center = const LatLng(55.6, 12.5);
+  final LatLng _center = const LatLng(55.68, 12.5810);
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
@@ -124,7 +124,7 @@ class MapForm extends StatelessWidget {
                   target: _center, zoom: 14.0),
               onMapCreated: _onMapCreated,
               myLocationEnabled: true,
-              markers: state.markers.isNotEmpty ? state.markers : {},
+              markers: state.markers,
               onCameraIdle: () async =>
               {
                 // Calculate the position and pass it to bloc
@@ -134,10 +134,10 @@ class MapForm extends StatelessWidget {
                         LatLng(
                             (pos.northeast.latitude + pos.southwest.latitude) / 2,
                             (pos.northeast.longitude + pos.southwest.longitude) / 2
-                        )
+                        ), true
                     )
                 ),
-                if(state.customMarkers.isNotEmpty){
+                print("Custom marker length: ${state.customMarkers.length}"),
                   for(var marker in state.customMarkers){
                     googleMarkers.add(
                       Marker(
@@ -176,9 +176,8 @@ class MapForm extends StatelessWidget {
                       ),
                     ),
                   },
-                  // Update the google markers in the state
-                  context.read<MapBloc>().add(UpdateGoogleMarkers(googleMarkers))
-                },
+                // Update the google markers in the state
+                context.read<MapBloc>().add(UpdateGoogleMarkers(googleMarkers))
               },
             ),
           ),

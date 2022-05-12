@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PoiRepository{
 
-  var position = LatLng(0, 0);
+  var position = LatLng(55.6833, 12.5810);
 
   //Returns a list of all pois based on location and categories
   Future<List> returnPois({required double lat, required double long,

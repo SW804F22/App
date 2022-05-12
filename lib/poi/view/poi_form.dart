@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../map/bloc/map_bloc.dart';
 import '../bloc/poi_bloc.dart';
 import 'package:select_dialog/select_dialog.dart';
 import 'package:poirecapi/global_styles.dart' as style;
@@ -70,8 +72,7 @@ class _PoiListView extends StatelessWidget{
   Widget build(BuildContext context){
     return BlocBuilder<PoiBloc, PoiState>(
       buildWhen: (previous, current) =>
-        previous.allPois != current.allPois ||
-        previous.position != current.position,
+        previous.allPois != current.allPois,
       builder: (context, state) {
         if(state.allPois.isEmpty){
           context.read<PoiBloc>().add(PoiInit());
